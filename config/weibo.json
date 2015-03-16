@@ -1,0 +1,64 @@
+{
+    "weibo_com":{
+        "search_conf":{
+            "parse_xpath":"//div[@class='WB_cardwrap S_bg2 clearfix']",
+            "publish_time":"//a[@class='W_textb']/@title",
+            "attitude":"//a[@action-type='feed_list_like']/span/em/text()",
+            "comments":"//a[@action-type='feed_list_comment']/span/em/text()",
+            "repost":"//a[@action-type='feed_list_forward']/span/em/text()",
+            "content":"//p[@class='comment_txt']",
+            "site_url":"//a[@class='W_textb']/@href",
+            "user_url":"//a[@class='W_texta W_fb']/@href",
+            "author":"//a[@class='W_texta W_fb']/@nick-name"
+        },
+        "weibo_url_conf":{
+            "wait_element":"//div[@action-type='feed_list_item']",
+            "parse_xpath":"//div[@action-type='feed_list_item']",
+            "publish_time":"//a[@node-type='feed_list_item_date']/@title",
+            "attitude":"//span[@node-type='like_status']/em/text()",
+            "comments":"//span[@node-type='comment_btn_text']/text()",
+            "repost":"//span[@node-type='forward_btn_text']/text()",
+            "content":"//div[@node-type='feed_list_content']",
+            "author":"//div[@node-type='feed_list_content']/@nick-name"
+        },
+        "start_spider":{
+            "wait_element":"//div[@class='search_num']",
+            "parse_xpath":"//div[@class='WB_cardwrap S_bg2 clearfix']",
+            "search_num":"//div[@class='search_num']/span/text()"
+        },
+        "filter_spider":{
+            "wait_element":"//div[@class='search_num']",
+            "parse_xpath":"//div[@class='WB_cardwrap S_bg2 clearfix']",
+            "site_url":"//a[@class='W_textb']/@href"
+
+        },
+         "content_spider":{
+            "wait_element":"//div[@action-type='feed_list_item']",
+            "parse_xpath":"//div[@action-type='feed_list_item']",
+            "publish_time":"//a[@node-type='feed_list_item_date']/@title",
+            "attitude":"//span[@node-type='like_status']/em/text()",
+            "comments":"//span[@node-type='comment_btn_text']/text()",
+            "repost":"//span[@node-type='forward_btn_text']/text()",
+            "content":"//div[@node-type='feed_list_content']",
+            "author":"//div[@node-type='feed_list_content']/@nick-name"
+        } ,
+         "content_spider_bak":{
+            "wait_element":"//div[@action-type='feed_list_item']",
+            "parse_xpath":"//div[@action-type='feed_list_item']",
+            "publish_time":"//a[@node-type='feed_list_item_date']/@title",
+            "attitude":"//span[@node-type='like_status']/em/text()",
+            "comments":"//span[@node-type='comment_btn_text']/text()",
+            "repost":"//span[@node-type='forward_btn_text']/text()",
+            "content":"//div[@node-type='feed_list_content']",
+            "author":"//div[@node-type='feed_list_content']/@nick-name"
+        }
+    },
+    "weibo_cn":{
+        "user_info":{
+            "wait_element":"//div[@class='u']",
+            "parse_xpath":"//div[@class='u']",
+            "face_image":"//img[@class='por']",
+            "num_info":"//div[@class='tip2']"
+        }
+    }
+}
