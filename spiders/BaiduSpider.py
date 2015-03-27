@@ -34,7 +34,7 @@ class BaiduSearchBySiteKeywordSpider(BaseSpider):
         self.redis_key = kwargs.get("redis_key")
 
         #获取微博的XPath配置
-        self.xpathConf = confUtil.getJsonStr("sougou.json").get("sougou").get("search_conf")
+        self.xpathConf = confUtil.getJsonStr("baidu.json").get("baidu").get("search_conf")
         self.Wait_Element = self.xpathConf.get("wait_element")
 
     def next_request(self):
@@ -72,8 +72,10 @@ class BaiduSearchBySiteKeywordSpider(BaseSpider):
 
         list = hxs.xpath(self.xpathConf.get("search_num"))
 
+        print "dsfadfa"
         if len(list)>0:
             search_num = list[0].extract()
+            print search_num
             num = int(fo.getBaiduSearchNum(search_num))
             if num/50>50:
                 self.saveUrlToRedis(50)

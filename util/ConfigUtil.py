@@ -6,7 +6,12 @@ import json
 import sys
 import os
 import socket
+import hashlib
 
+import sys
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 #获取配置文件
 def __getConfigFile(fileName):
@@ -36,7 +41,9 @@ def getJsonStr(jsonName):
 
 #获取本机IP
 def getLocalIp():
-    myname = socket.getfqdn(socket.gethostname())
+    #myname = socket.getfqdn(socket.gethostname())
+    myname = socket.gethostname()
+
     myaddr = socket.gethostbyname(myname)
     return myaddr
 
@@ -49,10 +56,19 @@ def strToJson(val):
 def jsonToStr(val):
     return json.dumps(val)
 
+
+#获取字符串的MD5值。
+def getMd5(str):
+    m = hashlib.md5()
+    m.update(str)
+    return m.hexdigest()
+
 if __name__ == "__main__":
-    jsonStr=getJsonStr("weibo.json")
-    print(jsonStr)
-    print(jsonStr.get('weibo_com').get('author'))
+    #jsonStr=getJsonStr("weibo.json")
+   # print(jsonStr)
+   # print(jsonStr.get('weibo_com').get('author'))
+
+   print getLocalIp()
 
 
 

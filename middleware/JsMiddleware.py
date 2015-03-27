@@ -25,5 +25,6 @@ class SeleniumMiddleware(object):
                 log.msg(request.url,level=log.INFO)
                 log.msg(spider.dr.page_source,level=log.INFO)
 
+            #print spider.dr.page_source
             return HtmlResponse(request.url, body=spider.dr.page_source.encode('utf-8'))
         return None

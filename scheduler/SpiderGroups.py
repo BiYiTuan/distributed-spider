@@ -132,13 +132,13 @@ def runTest(group_type,spider_type,spider_group_name,spider_name):
 if __name__ == "__main__":
     #runTest("baidu_search_sina_news_group","start_spider","baidu_sina","baidu_search")
     #runTest("baidu_search_sina_news_group","filter_spider","baidu_sina","baidu_sina_filter")
-    #runTest("baidu_search_sina_news_group","content_spider","baidu_sina","sina_content")
+    runTest("baidu_search_sina_news_group","content_spider","baidu_sina","sina_content")
 
     #runTest("sougou_search_weixin_group","start_spider","sougou_weixin","weixin_start")
     #runTest("sougou_search_weixin_group","filter_spider","sougou_weixin","weixin_filter")
     #runTest("sougou_search_weixin_group","content_spider","sougou_weixin","weixin_content")
 
     #runTest("weibo_userinfo_group","start_spider","weibo_userinfo","weibo_userinfo_start")
-    runTest("weibo_userinfo_group","content_spider","weibo_userinfo","weibo_userinfo_content")
+    #runTest("weibo_userinfo_group","content_spider","weibo_userinfo","weibo_userinfo_values:userinfo_content")
 
 

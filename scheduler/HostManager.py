@@ -64,12 +64,13 @@ class HostSpiderManager():
     def addGroupStart(self,spider_group_name):
         spider_types = ["start_spider","filter_spider","content_spider"]
         #获取该爬虫族的的爬虫族类型
-        spider_group_type = json.loads(self.redisConfUtil.getSpiderGroupConf(spider_group_name)).get("spider_group_type")
-        for spider_type in spider_types:
-            host_ip = self.getSpiderStartHostIp(spider_group_name)
-            if host_ip:
-                spider_name = self.getSpiderName(spider_group_name,spider_type)
-                self.setStartSpiderConf(host_ip,spider_group_name,spider_group_type,spider_type,spider_name)
+        if self.redisConfUtil.getSpiderGroupConf(spider_group_name):
+            spider_group_type = json.loads(self.redisConfUtil.getSpiderGroupConf(spider_group_name)).get("spider_group_type")
+            for spider_type in spider_types:
+                host_ip = self.getSpiderStartHostIp(spider_group_name)
+                if host_ip:
+                    spider_name = self.getSpiderName(spider_group_name,spider_type)
+                    self.setStartSpiderConf(host_ip,spider_group_name,spider_group_type,spider_type,spider_name)
 
     #开启一个爬虫配置。
     def addSpiderStart(self,spider_group_name,spider_group_type,spider_type):
@@ -185,12 +186,20 @@ class HostSpiderManager():
                 #获取爬虫族状态配置
                 #校验爬虫现在运行的状态与Host和Group的状态是否一致。
                 self.checkSpiderStatus()
-                spiderGroupStatus= json.loads(self.redisConfUtil.getSpiderGroupStatus(spider_group_name))
-                run_filter = self._getCount(spiderGroupStatus["filter_spider"])
-                run_content = self._getCount(spiderGroupStatus["content_spider"])
+                run_filter=0
+                run_content=0
+                run_start=0
+                if self.redisConfUtil.getSpiderGroupStatus(spider_group_name):
+                    spiderGroupStatus= json.loads(self.redisConfUtil.getSpiderGroupStatus(spider_group_name))
+                    run_filter = self._getCount(spiderGroupStatus["filter_spider"])
+                    run_content = self._getCount(spiderGroupStatus["content_spider"])
+                    run_start = self._getCount(spiderGroupStatus["start_spider"])
 
                 #当没有filter或content时，启动一个。
                 hasAdd = False
+                if run_start==0:
+                    self.addSpiderStart(spider_group_name,spider_group_type,"start_spider")
+                    hasAdd=True
                 if run_filter==0:
                     self.addSpiderStart(spider_group_name,spider_group_type,"filter_spider")
                     hasAdd=True
@@ -523,6 +532,7 @@ class SpiderUrlManager(threading.Thread):
 if __name__ == "__main__":
 
     hostSpiderM = HostSpiderManager()
+    hostSpiderM.reportSpiderType()
     setUrlThread = SpiderUrlManager()
     setUrlThread.start()
     while True:

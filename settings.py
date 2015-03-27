@@ -42,14 +42,14 @@ SCHEDULER_IDLE_BEFORE_CLOSE = 10
 ITEM_PIPELINES = [
    # 'scrapy_redis.pipelines.RedisPipeline',
     'whaledataspider.pipelines.DatabasePipelines.RedisPipeline',
-    'whaledataspider.pipelines.FilePipelines.TxtFileStorePipeline',
+    'whaledataspider.pipelines.DatabasePipelines.HBasePipeline',
+    #'whaledataspider.pipelines.FilePipelines.TxtFileStorePipeline',
    # 'myspider.pipelines.FilePipelines.CsvFileStorePipeline',
 ]
 
 DOWNLOADER_MIDDLEWARES = {
     'whaledataspider.middleware.JsMiddleware.SeleniumMiddleware':110,
     'whaledataspider.middleware.ProxyMiddleware.ProxyMiddleware':100,
-
 }
 
 
@@ -71,20 +71,20 @@ File_Pipelines_Path = u'F:/test/python'
     设置项目的环境变量。
 '''
 #设置配置文件的路径
-CONFIG_PATH = 'D:/.../config'
+CONFIG_PATH = 'D:\Project\Python\whaledataspider\whaledataspider\config'
 
 IS_NEED_AGENT = True
 
-proxy = "..."
-proxy_type ="..."
-proxy_auth_username = "..."
-proxy_auth_password = "..."
+proxy = "http://proxy.asiainfo.com:8080"
+proxy_type ="http"
+proxy_auth_username = "wanglu"
+proxy_auth_password = "ai@@119"
 
 #配置代理信息
 service_args = [
-        '--proxy=...',
-        '--proxy-type=...',
-        '--proxy-auth=...'
+        '--proxy=proxy.asiainfo.com:8080',
+        '--proxy-type=http',
+        '--proxy-auth=wanglu:ai@@119'
     ]
 #浏览器路径
 PhantomJS_Path="D:\Python27\Scripts\phantomjs.exe"
@@ -98,4 +98,8 @@ dcap={'platform': 'ANY',
 
 #PhantomJS等待元素加载时间。
 PhantomJS_Wait=10
+
+#HBase的IP
+thrift_ip="10.1.253.4"
+thrift_port= 9090
 

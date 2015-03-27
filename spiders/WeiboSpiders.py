@@ -301,6 +301,8 @@ class WeiboComUserInfoContentSpider(BaseSpider):
         super(WeiboComUserInfoContentSpider,self).__init__(**kwargs)
         self.name = kwargs.get("name")
         self.redis_key = kwargs.get("redis_key")
+        #爬去结果输出到Redist的Key。
+        self.out_key=self.name[0:self.name.index(":")]
 
         #获取微博的XPath配置
         self.xpathConf = confUtil.getJsonStr("weibo.json").get("weibo_cn").get("user_info")
@@ -318,6 +320,7 @@ class WeiboComUserInfoContentSpider(BaseSpider):
              #重跑
              try:
                 self.accountNum, url = url.split("|")
+                self.accountNum=self.accountNum[1:len(self.accountNum)]
                 return self.make_requests_from_url(url)
              except:
                  log.msg("WeiboComUserInfoContentSpider url exception :"+url,log.ERROR)
@@ -327,29 +330,36 @@ class WeiboComUserInfoContentSpider(BaseSpider):
         hxs = Selector(response)
         print hxs.extract()
         for con in hxs.xpath(self.xpathConf.get("parse_xpath")):
+
             s = Selector(text=con.extract())
-            r = [self.accountNum]
-            imgs = s.xpath(self.xpathConf.get("face_image")).extract()
-            if len(imgs)>0:
-                r.append(imgs[0])
-            else:
-                r.append("")
+            if s.xpath(self.xpathConf.get("is_parse_xpath")).__len__()>0:
+                r = [str(self.accountNum)]
+                imgs = s.xpath(self.xpathConf.get("face_image")).extract()
+                if len(imgs)>0:
+                    r.append(imgs[0])
+                else:
+                    r.append("")
 
-            num_info = s.xpath(self.xpathConf.get("num_info")).extract()
+                num_info = s.xpath(self.xpathConf.get("num_info")).extract()
 
 
-            if len(num_info)>0:
-                for num in fo.getWeiboCnUserInfo(num_info[0]):
-                    r.append(num)
-            else:
-                r.append(0)
-                r.append(0)
-                r.append(0)
+                if len(num_info)>0:
+                    for num in fo.getWeiboCnUserInfo(num_info[0]):
+                        r.append(num)
+                else:
+                    r.append(0)
+                    r.append(0)
+                    r.append(0)
 
-            #生成保存Redis的格式
-            save_info = "%s|%s|%s|%s|%s" % tuple(r)
+                #生成保存Redis的格式
+                save_info = "%s|%s|%s|%s|%s" % tuple(r)
 
-            self.server.lpush("weibo_user_watch_values",save_info)
+                print(r)
+                print save_info
+
+
+
+                self.server.lpush(self.out_key,save_info)
 
 
 

@@ -153,6 +153,7 @@ class RedisConfUtil():
 
     #向爬虫族类型中添加爬虫组类型。
     def setSpiderGroupTypes(self,spiderGroupTypes):
+        self.con.delete(spider_group_type)
         for spiderGroupType in spiderGroupTypes:
             self.con.sadd(spider_group_type,spiderGroupType)
 
@@ -236,10 +237,10 @@ if __name__ == '__main__':
     redisConfUtil.con.lpush("weixin_keyword","测试")
     '''
 
-    spikerConf = '{"keyword_redis_key":"weibo_user_watchurls","spider_group_type":"weibo_userinfo_group","spider_host":"10.1.48.170","filter_spider_num":"1","content_spider_num":"5","group_interval":"60","start_interval":"1","filter_interval":"1","content_interval":"3"}'
+    spikerConf = '{"keyword_redis_key":"weibo_user_watchurls","spider_group_type":"weibo_userinfo_group","filter_spider_num":"1","content_spider_num":"5","group_interval":"60","start_interval":"1","filter_interval":"1","content_interval":"3"}'
     redisConfUtil.setSpiderGroupConf("test",spikerConf)
 
-    redisConfUtil.con.lpush("weibo_user_watchurls","1647263235|http://weibo.cn/1647263235")
+    #redisConfUtil.con.lpush("weibo_user_watchurls","1647263235|http://weibo.cn/1647263235")
 
 
 
